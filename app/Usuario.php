@@ -27,6 +27,6 @@ class Usuario extends Authenticatable
 
     public function grado()
     {
-        return $this->hasOne('App\Models\Grado');
+        return $this->hasOne('App\Models\Grado','id', 'grado_id');
     }
 }

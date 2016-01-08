@@ -11,17 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('hola', function (){
-	return bcrypt('123123');
-});
-
 Route::resource('usuarios', 'UsuariosController');
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -33,10 +23,20 @@ Route::resource('usuarios', 'UsuariosController');
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+Route::group(['middleware' => ['web']], function () {
 
-
-Route::group(['middleware' => 'web'], function () {
     Route::auth();
+    Route::get('/', function(){
+        return view('welcome');
+    });
 
-    Route::get('/home', 'HomeController@index');
 });
+
+
+    Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'admin'], function(){
+
+        Route::get('/', function(){
+            return view('administrador.home');
+        });
+    });
+

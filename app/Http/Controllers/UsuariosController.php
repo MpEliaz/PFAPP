@@ -11,6 +11,10 @@ use App\Models\Grado;
 
 class UsuariosController extends Controller
 {
+/*    public function __construct()
+    {
+        $this->middleware('auth');
+    }*/
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +22,11 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::find(1);
+        $usuarios = Usuario::with('grado')->get();
 
-        return $usuarios;
+        //return $usuarios;
+
+        return view('administrador.usuarios',['usuarios'=> $usuarios]);
     }
 
     /**
@@ -30,7 +36,7 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        //
+        return view("administrador.crear_usuario");
     }
 
     /**
@@ -52,7 +58,9 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario = Usuario::findOrFail($id);
+
+        return $usuario;
     }
 
     /**
