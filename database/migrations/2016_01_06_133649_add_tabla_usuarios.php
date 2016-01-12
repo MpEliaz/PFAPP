@@ -19,7 +19,8 @@ class AddTablaUsuarios extends Migration
             $table->string('apellido_p');
             $table->string('apellido_m');
             $table->string('password');
-            $table->integer('rol');
+            $table->integer('rol_id')->unsigned();
+            $table->foreign('rol_id')->references('id')->on('roles');
             $table->boolean('estado');
             $table->rememberToken();
             

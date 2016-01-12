@@ -11,7 +11,14 @@
 |
 */
 
-Route::resource('usuarios', 'UsuariosController');
+
+Route::get('verificar', function() {
+    
+    return bcrypt("123123");
+    
+});
+
+Route::post('usuarios/estado', 'UsuariosController@cambiar_estado');
 
 /*
 |--------------------------------------------------------------------------
@@ -27,16 +34,21 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::auth();
     Route::get('/', function(){
+    	
         return view('welcome');
     });
+    Route::get('/v', function(){
+    	dd( Auth::user());
 
+    });    
+    Route::resource('usuarios', 'UsuariosController');
+    Route::resource('partefuerza', 'ParteFuerzaController');
+    Route::get('/home', 'HomeController@index');
+
+    Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function(){
+    	
+    });
 });
 
 
-    Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'admin'], function(){
-
-        Route::get('/', function(){
-            return view('administrador.home');
-        });
-    });
 

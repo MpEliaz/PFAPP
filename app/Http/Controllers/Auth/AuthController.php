@@ -29,6 +29,7 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $username = 'rut';
 
     /**
      * Create a new authentication controller instance.
@@ -47,9 +48,9 @@ class AuthController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
+    {   
         return Validator::make($data, [
-            'rut' => 'required|max:255|unique:usuarios',
+            'rut' => 'required|max:11|unique:usuarios',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -69,4 +70,5 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+  
 }

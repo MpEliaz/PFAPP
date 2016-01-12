@@ -12,7 +12,6 @@
 
                         <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Rut</label>
-
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="rut" value="{{ old('rut') }}">
 

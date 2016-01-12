@@ -8,13 +8,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Usuario;
 use App\Models\Grado;
+use App\Models\Rol;
+use App\Http\Requests\UsuarioForm;
 
 class UsuariosController extends Controller
 {
 /*    public function __construct()
     {
         $this->middleware('auth');
+          $this->middleware('throttle', ['only' => [
+             'cambiar_estado',
+         ]]);
     }*/
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +28,9 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::with('grado')->get();
+        $usuarios = Usuario::with('grado')->with('rol')->get();
 
-        //return $usuarios;
+        //dd($usuarios);
 
         return view('administrador.usuarios',['usuarios'=> $usuarios]);
     }
@@ -36,7 +42,9 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        return view("administrador.crear_usuario");
+        $grados = Grado::lists('nombre', 'id');
+        $roles = Rol::lists('nombre', 'id');
+        return view("administrador.crear_usuario", ['grados' => $grados, 'roles' => $roles]);
     }
 
     /**
@@ -45,9 +53,21 @@ class UsuariosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsuarioForm $usuario)
     {
-        //
+       $user = new Usuario([
+        'rut' => $usuario->rut,
+        'nombres' => $usuario->nombres,
+        'apellido_p' => $usuario->apellido_p,
+        'apellido_m' => $usuario->apellido_m,
+        'password' => bcrypt($usuario->password),
+        'rol_id' => (int)$usuario->rol,
+        'grado_id' => (int)$usuario->grado_id,
+        'estado' => 0,
+    ]);     
+        
+        $id = $user->save();
+        return redirect()->action('UsuariosController@index');
     }
 
     /**
@@ -59,8 +79,11 @@ class UsuariosController extends Controller
     public function show($id)
     {
         $usuario = Usuario::findOrFail($id);
+        $usuario->grado;
+        $usuario->rol;
 
-        return $usuario;
+        //return response()->json($usuario);
+        return view('administrador.ver_usuario',['usuario' => $usuario]);
     }
 
     /**
@@ -71,7 +94,19 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $usuario = Usuario::find($id);
+        $usuario->grado;
+
+        $grados = Grado::lists('nombre', 'id');
+        $roles = Rol::lists('nombre', 'id');
+
+        if($usuario != null){
+            return view('administrador.modificar_usuario')->with(['usuario' => Usuario::find($id), 'grados'=> $grados, 'roles'=> $roles]);
+        }
+        else{
+            return "usuario no existe";
+        }
+        //return response()->json($usuario);
     }
 
     /**
@@ -81,9 +116,23 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsuarioForm $usuario, $id)
     {
-        //
+        $user = Usuario::findOrFail($id);
+
+        if(isset($user)){
+
+            $user->rut = $usuario->rut;
+            $user->nombres = $usuario->nombres;
+            $user->apellido_p = $usuario->apellido_p;
+            $user->apellido_m = $usuario->apellido_m;
+            $user->password = bcrypt($usuario->password);
+            $user->rol_id = (int)$usuario->rol;
+            $user->grado_id = (int)$usuario->grado_id;
+
+            $user->save();
+        }
+        return redirect()->action('UsuariosController@show', ['id' => $user->id]);
     }
 
     /**
@@ -94,6 +143,37 @@ class UsuariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($request->ajax()) {
+                // $user = Usuario::findOrFail($request->id);
+            return "HOLII";
+                // if(isset($user)){
+                //     //return response()->json('{"id":'.$user->id.', "estado":'.$user->estado.', "err":"false"}');
+                //     return "ESTOY CASI";
+                // }
+        }        
     }
+
+    public function cambiar_estado(Request $request)
+    {
+        if($request->ajax()) {
+              $user = Usuario::findOrFail($request->id);
+
+              if(isset($user)){
+
+                if($user->estado == 1){
+
+                    $user->estado = 0;
+                    $user->save();
+
+                }elseif ($user->estado == 0) {
+                    $user->estado = 1;
+                    $user->save();
+                }
+
+                return response()->json('{"id":'.$user->id.', "estado":'.$user->estado.', "err":"false"}');
+              }
+        }
+    }
+
+
 }

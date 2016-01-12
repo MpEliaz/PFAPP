@@ -24,8 +24,26 @@ class UsuarioForm extends Request
     public function rules()
     {
         return [
-            "title"    =>    "required|min:5|max:45",
-            "body"		 =>		 "required|min:5|max:500"
+            "rut"         =>    "required|unique:usuarios",
+            "grado_id"    =>    "required",
+            "nombres"     =>    "required|min:3|max:500",
+            "apellido_p"  =>    "required|min:3|max:500",
+            "apellido_m"  =>    "required|min:3|max:500",
+            "password"    =>    "required|min:3|max:500",
+            "rol"         =>    "required",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "rut"           =>    "rut requerido",
+            "grado_id"      =>    "grado requerido",
+            "nombres"       =>    "nombre requerido",
+            "apellido_p"    =>    "apellido paterno requerido",
+            "apellido_m"    =>    "apellido materno requerido",
+            "password"      =>    "contraseña requerida",
+            "rol"           =>    "seleccione rol",
         ];
     }
 }

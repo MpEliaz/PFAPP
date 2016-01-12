@@ -13,7 +13,7 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'rut', 'nombres', 'apellido_p', 'apellido_m', 'password', 'rol', 'estado', 'grado_id'
+        'rut', 'nombres', 'apellido_p', 'apellido_m', 'password', 'rol_id', 'estado', 'grado_id'
     ];
 
     /**
@@ -28,5 +28,10 @@ class Usuario extends Authenticatable
     public function grado()
     {
         return $this->hasOne('App\Models\Grado','id', 'grado_id');
+    }
+
+    public function rol()
+    {
+        return $this->hasOne('App\Models\Rol','id', 'rol_id');
     }
 }
