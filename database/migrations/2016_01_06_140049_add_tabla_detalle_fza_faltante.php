@@ -14,6 +14,7 @@ class AddTablaDetalleFzaFaltante extends Migration
     {
         Schema::create('detalle_fza_faltante', function (Blueprint $table) {
             $table->increments('id');
+            $table->int('cantidad');
             $table->integer('partefza_id')->unsigned();
             $table->integer('motivo_id')->unsigned();
 

@@ -44,9 +44,9 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::resource('partefuerza', 'ParteFuerzaController');
     Route::get('/home', 'HomeController@index');
-
+Route::resource('usuarios', 'UsuariosController');
     Route::group(['middleware' => ['auth']], function(){
-    	Route::resource('usuarios', 'UsuariosController');
+    	
     });
 });
 

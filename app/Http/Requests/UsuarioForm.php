@@ -23,15 +23,34 @@ class UsuarioForm extends Request
      */
     public function rules()
     {
-        return [
-            "rut"         =>    "required|unique:usuarios",
-            "grado_id"    =>    "required",
-            "nombres"     =>    "required|min:3|max:500",
-            "apellido_p"  =>    "required|min:3|max:500",
-            "apellido_m"  =>    "required|min:3|max:500",
-            "password"    =>    "required|min:3|max:500",
-            "rol"         =>    "required",
-        ];
+        switch ($this->method()) {
+            case 'POST':
+                return [
+                    "rut"         =>    "required|unique:usuarios",
+                    "grado_id"    =>    "required",
+                    "nombres"     =>    "required|min:3|max:500",
+                    "apellido_p"  =>    "required|min:3|max:500",
+                    "apellido_m"  =>    "required|min:3|max:500",
+                    "password"    =>    "required|min:3|max:500",
+                    "rol"         =>    "required",
+                ];                
+                break;
+            case 'PUT':
+                return [
+                    "rut"         =>    "required",
+                    "grado_id"    =>    "required",
+                    "nombres"     =>    "required|min:3|max:500",
+                    "apellido_p"  =>    "required|min:3|max:500",
+                    "apellido_m"  =>    "required|min:3|max:500",
+                    "password"    =>    "required|min:3|max:500",
+                    "rol"         =>    "required",
+                ];                
+                break;
+            default:
+                # code...
+                break;
+        }
+
     }
 
     public function messages()

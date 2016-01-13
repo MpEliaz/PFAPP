@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Motivo;
+use App\Http\Requests\ParteFuerzaRequest;
 
 class ParteFuerzaController extends Controller
 {
@@ -37,9 +38,9 @@ class ParteFuerzaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ParteFuerzaRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

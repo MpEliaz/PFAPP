@@ -15,8 +15,8 @@ class AddTablaParteFuerza extends Migration
         Schema::create('parte_fuerza', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('unidad_id')->unsigned();
-           // $table->foreign('unidad')->references('id')->on('unidades');
-            $table->integer('responsable');
+            $table->foreign('unidad_id')->references('id')->on('unidades');
+            $table->integer('responsable')->unsigned();
             $table->foreign('responsable')->references('id')->on('usuarios');
             $table->dateTime('creado_el');
             $table->boolean('estado');
