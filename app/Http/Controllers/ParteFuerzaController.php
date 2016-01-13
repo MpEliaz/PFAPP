@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Motivo;
 
 class ParteFuerzaController extends Controller
 {
@@ -26,7 +27,8 @@ class ParteFuerzaController extends Controller
      */
     public function create()
     {
-        return view('partefuerza.crear_parte');
+        $motivos = Motivo::lists('motivo', 'id');
+        return view('partefuerza.crear_parte', ['motivos' => $motivos]);
     }
 
     /**

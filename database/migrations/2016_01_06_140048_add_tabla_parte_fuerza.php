@@ -17,6 +17,7 @@ class AddTablaParteFuerza extends Migration
             $table->integer('unidad_id')->unsigned();
            // $table->foreign('unidad')->references('id')->on('unidades');
             $table->integer('responsable');
+            $table->foreign('responsable')->references('id')->on('usuarios');
             $table->dateTime('creado_el');
             $table->boolean('estado');
             $table->integer('fuerza_total');

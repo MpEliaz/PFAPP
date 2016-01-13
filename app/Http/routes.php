@@ -41,12 +41,12 @@ Route::group(['middleware' => ['web']], function () {
     	dd( Auth::user());
 
     });    
-    Route::resource('usuarios', 'UsuariosController');
+    
     Route::resource('partefuerza', 'ParteFuerzaController');
     Route::get('/home', 'HomeController@index');
 
-    Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function(){
-    	
+    Route::group(['middleware' => ['auth']], function(){
+    	Route::resource('usuarios', 'UsuariosController');
     });
 });
 

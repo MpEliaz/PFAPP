@@ -13,7 +13,8 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+    {{-- <link href="{{ elixir('css/main.css') }}" rel="stylesheet"> --}}
 
     <style>
         body {
@@ -48,11 +49,9 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Inicio</a></li>
-                </ul>
-                <ul class="nav navbar-nav">
                     <li><a href="{{ url('/usuarios') }}">Usuarios</a></li>
+                    <li><a href="{{ url('/partefuerza') }}">Parte de Fuerza</a></li>
                 </ul>
-
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
@@ -66,7 +65,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar Sesión</a></li>
                             </ul>
                         </li>
                     @endif

@@ -7,108 +7,179 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Crear parte de fuerza</div>
                     <div class="panel-body">
-                        {!! Form::open(array('url' => 'usuarios', 'action' => 'post', 'class' => 'form-horizontal')) !!}
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <td>CAT</td>
-                                        <td>CANTIDAD</td> 
+                                        <td><strong>CATEGORIA</strong></td>
+                                        <td style="width:20%"><strong>FUERZA</strong></td> 
+                                        <td style="width:20%"><strong>FORMAN</strong></td>
+                                        <td style="width:20%"><strong>FALTAN</strong></td>
                                     </tr>
                                     </thead>
                                     <tr>
-                                        <td>OF</td>
+                                        <td>Oficiales</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
                                         </td>        
                                     </tr>  
                                     <tr>
-                                        <td>CP</td>
+                                        <td>Cuadro Permanente</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>                                            
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
                                         </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>    
                                     </tr>
                                     <tr>
-                                        <td>SLTP</td>
+                                        <td>Soldados de tropa Profesional</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>                                            
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
                                         </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>   
                                     </tr>   
                                     <tr>
-                                        <td>SLC</td>
+                                        <td>Soldados Conscriptos</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>                                            
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
                                         </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>   
                                     </tr>   
                                     <tr>
-                                        <td>EC</td>
+                                        <td>Empleados Civiles</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>                                            
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
                                         </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>    
                                     </tr>
                                     <tr>
                                         <td>Alumnos</td>
                                         <td>
-                                            <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
-                                                <input type="text" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
-                                                @if ($errors->has('nombres'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('nombres') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>                                            
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                            @if ($errors->has('nombres'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('nombres') }}</strong>
+                                            </span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" class="form-control input-pf" name="nombres" value="{{ old('nombres') }}">
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>TOTAL</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong id="fuerza_total">4</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong id="forman_total">5</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong id="faltan_total">5</strong>
                                         </td>
                                     </tr>                                       
                                 </table>
-                                
                             </div>    
                             <div class="col-md-7">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </div>    
-                        </div>
-
-                        {!! Form::close() !!}                      
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Demostracion</div>
+                                    <div class="panel-body">
+                                    <div class="form-group row">
+                                    <span class="col-md-3 control-label">Agregar Motivo</span>
+                                            <div class="col-md-2">
+                                                <input type="number" min="0" class="form-control input-pf" name="demo-cant" value="{{ old('nombres') }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                {!! Form::select('motivo', $motivos, null, ['class' => 'form-control', 'placeholder' => 'Selecciona motivo']) !!}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-success">Agregar</button>
+                                            </div>                                    
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td style="width:20%"><strong>CANTIDAD</strong></td>
+                                            <td style="width:60%"><strong>MOTIVO</strong></td>
+                                            <td style="width:20%"><strong></strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-hover">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-8">
+                                <div class="form-inline">
+                                    <button class="btn btn-danger">Cancelar</button>
+                                    <button class="btn btn-success">Guardar Parte</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>                     
                     </div>
                 </div>
             </div>

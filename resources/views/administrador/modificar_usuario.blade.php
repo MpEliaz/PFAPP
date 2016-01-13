@@ -27,7 +27,6 @@
                             <label class="col-md-4 control-label">Grado</label>
 
                             <div class="col-md-6">
-                                <!-- <input type="text" class="form-control" name="grado" value="{{ old('grado') }}"> -->
                                {!! Form::select('grado_id', $grados, $usuario->grado->id, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
 
                                 @if ($errors->has('grado_id'))
