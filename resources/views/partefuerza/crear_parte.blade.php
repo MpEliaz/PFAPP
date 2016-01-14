@@ -261,16 +261,47 @@
 
     $("#add_motivo").click(function(event) {
 
-        var cantidad = $("input[name='demo-cant']").val();
+        var cantidad = parseInt($("input[name='demo-cant']").val());
         var motivo = $("select[name='motivo']").val();
+        var total_faltante = parseInt($("#faltan_total").text());
+        var total_tabla = 0;
         var motivo_nombre = $( "#motivo_demo option:selected" ).text();
 
         
-            if(cantidad > 0 && motivo != 0){
-                $("#demostracion-tabla tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><button class="btn btn-danger btn-sm del-demo">eliminar</button></td></tr>');                
+            if(cantidad > 0 && motivo != ""){
+                if(cantidad <= total_faltante)
+                {
+                    $('#demostracion-tabla tbody tr td:nth-child(1) input').each( function(){
+                       //add item to array
+                       total_tabla = total_tabla + parseInt($(this).val());   
+                    });
+
+                    console.log(total_tabla);
+                    if(total_tabla+cantidad <= total_faltante)
+                    {
+                        $("#demostracion-tabla tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><button class="btn btn-danger btn-sm del-demo">eliminar</button></td></tr>');                
+                    }
+                    else{
+                        console.log("ya complestaste a los faltantes");
+                    }
+                    
+                }
+                else{
+                    console.log("sobrepasa total faltante");
+                }
             }
         return false;
     });
+
+$('.input-pf-fza').change(function(event) {
+
+    var num = $(this).val().match(/^\d+$/);
+    if (num === null) {
+        // If we have no match, value will be empty.
+        this.value = "";
+    }
+    
+});
 
     </script>
 @endsection

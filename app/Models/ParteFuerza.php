@@ -36,4 +36,9 @@ class ParteFuerza extends Model
 		'alumnos_faltan'
     ];
 
+    public function demostracion()
+    {
+    	return $this->hasMany('App\Models\DetalleFaltantes', 'partefuerza_id');
+    }
+
 }

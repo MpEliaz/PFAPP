@@ -30,8 +30,6 @@ class UsuariosController extends Controller
     {
         $usuarios = Usuario::with('grado')->with('rol')->get();
 
-        //dd($usuarios);
-
         return view('administrador.usuarios',['usuarios'=> $usuarios]);
     }
 

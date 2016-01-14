@@ -34,4 +34,9 @@ class Usuario extends Authenticatable
     {
         return $this->hasOne('App\Models\Rol','id', 'rol_id');
     }
+
+    public function getId()
+    {
+      return $this->id;
+    }
 }

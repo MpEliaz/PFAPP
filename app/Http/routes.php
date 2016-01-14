@@ -14,7 +14,7 @@
 
 Route::get('verificar', function() {
     
-    return bcrypt("123123");
+   // dd(\Auth::user());
     
 });
 

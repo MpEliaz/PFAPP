@@ -14,11 +14,11 @@ class AddTablaDetalleFzaFaltante extends Migration
     {
         Schema::create('detalle_fza_faltante', function (Blueprint $table) {
             $table->increments('id');
-            $table->int('cantidad');
-            $table->integer('partefza_id')->unsigned();
+            $table->integer('cantidad');
+            $table->integer('partefuerza_id')->unsigned();
             $table->integer('motivo_id')->unsigned();
 
-            $table->foreign('partefza_id')->references('id')->on('parte_fuerza');
+            $table->foreign('partefuerza_id')->references('id')->on('parte_fuerza');
             $table->foreign('motivo_id')->references('id')->on('motivos');
             $table->timestamps();
         });
