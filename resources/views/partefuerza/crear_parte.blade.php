@@ -161,6 +161,12 @@
     <script>
     $('.input-pf-fza').change(function(event) {
 
+            var num = $(this).val().match(/^\d+$/);
+                if (num === null) {
+                    // If we have no match, value will be empty.
+                    this.value = "0";
+            }
+
         var total_of = parseInt($("input[name='of_fuerza']").val());
         var total_cp = parseInt($("input[name='cp_fuerza']").val());
         var total_sltp = parseInt($("input[name='sltp_fuerza']").val());
@@ -205,6 +211,11 @@
     });
 
     $('.input-pf-forman').change(function(event) {
+        var num = $(this).val().match(/^\d+$/);
+        if (num === null) {
+                // If we have no match, value will be empty.
+                this.value = "0";
+        }
         actualizar_total();
     });
 
@@ -228,6 +239,13 @@
         total_slc_forman = parseInt($("input[name='slc_forman']").val());
         total_ec_forman = parseInt($("input[name='ec_forman']").val());
         total_alu_forman = parseInt($("input[name='alumnos_forman']").val());
+
+        if(total_of_forman > total_of_fza){total_of_forman = total_of_fza; $("input[name='of_forman']").val(total_of_fza)};
+        if(total_cp_forman > total_cp_fza){total_cp_forman = total_cp_fza; $("input[name='cp_forman']").val(total_cp_fza)};
+        if(total_sltp_forman > total_sltp_fza){total_sltp_forman = total_sltp_fza; $("input[name='sltp_forman']").val(total_sltp_fza)};
+        if(total_slc_forman > total_slc_fza){total_slc_forman = total_slc_fza; $("input[name='slc_forman']").val(total_slc_fza)};
+        if(total_ec_forman > total_ec_fza){total_ec_forman = total_ec_fza; $("input[name='ec_forman']").val(total_ec_fza)};
+        if(total_alu_forman > total_alu_fza){total_alu_forman = total_alu_fza; $("input[name='alumnos_forman']").val(total_alu_fza)};
 
         var total_forman = total_of_forman+total_cp_forman+total_sltp_forman+total_slc_forman+total_ec_forman+total_alu_forman;
         if(!isNaN(total_forman)){
@@ -293,15 +311,6 @@
         return false;
     });
 
-$('.input-pf-fza').change(function(event) {
-
-    var num = $(this).val().match(/^\d+$/);
-    if (num === null) {
-        // If we have no match, value will be empty.
-        this.value = "";
-    }
-    
-});
 
     </script>
 @endsection

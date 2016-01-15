@@ -41,4 +41,9 @@ class ParteFuerza extends Model
     	return $this->hasMany('App\Models\DetalleFaltantes', 'partefuerza_id');
     }
 
+    public function responsable()
+    {
+    	return $this->belongsTo('App\Usuario', 'responsable', 'id');
+    }
+
 }

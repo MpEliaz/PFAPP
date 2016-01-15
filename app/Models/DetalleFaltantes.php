@@ -13,11 +13,6 @@ class DetalleFaltantes extends Model
     ];
 
 
-    public function parte_fuerza()
-    {
-        return $this->belongsTo('App\Models\ParteFuerza');
-    }
-
     public function motivo()
     {
     	return $this->hasOne('App\Models\Motivo');

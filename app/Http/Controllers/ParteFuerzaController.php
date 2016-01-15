@@ -30,11 +30,9 @@ class ParteFuerzaController extends Controller
      */
     public function index()
     {
-        $parte = ParteFuerza::find(4);
-
-        $parte->demostracion;
-
-        return $parte;
+        $partes = ParteFuerza::with('responsable')->with('demostracion')->get(); 
+        //return $partes;
+        return view('partefuerza.index',['partes'=> $partes]);
 
     }
 
