@@ -12,9 +12,4 @@ class Motivo extends Model
         'motivo', 'estado'
     ];
 
-    public function usuario()
-    {
-        return $this->belongsTo('App\Usuario');
-    }
-
 }

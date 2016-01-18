@@ -12,7 +12,7 @@
                     <div class="panel-heading">Usuarios</div>
                     <div class="panel-body">
                         <table class="table table-hover">
-                            <thead>
+                            <thead class="text-center">
                             <tr>
                                 <td>Id</td>
                                 <td>Fecha Cración</td>
@@ -21,30 +21,21 @@
                                 <td>Fuerza</td>
                                 <td>Forman</td>
                                 <td>Faltan</td>
-                                <td style="width: 5%;">Estado</td>
                                 <td style="width: 5%;">Modificar</td>
                                 <td style="width: 5%;"></td>
                             </tr>
                             </thead>
-                            <tbody class="table-hover">
+                            <tbody class="table-hover text-center">
                             @foreach($partes as $p)
-                            {{$p}}
                             <tr>
                                 <td>{{$p->id}}</td>
-                                <td>{{$p->creado_el}}</td>
-                                {{-- <td>{{$p->unidad_id}}</td> --}}
-                                {{-- <td>{{$p->responsable->nombres." ".$p->responsable->apellido_p." ".$p->responsable->apellido_m}}</td> --}}
+                                <td>{{date('d/m/y - H:i',strtotime($p->creado_el))}}</td>
+                                 <td>{{$p->unidad_id}}</td>
+                                 <td>{{$p->usuario_responsable->grado->sigla." ".$p->usuario_responsable->nombres." ".$p->usuario_responsable->apellido_p." ".$p->usuario_responsable->apellido_m}}</td>
                                 <td>{{$p->fuerza_total}}</td>
                                 <td>{{$p->forman_total}}</td>
                                 <td>{{$p->faltan_total}}</td>
-                                <td>                  
-                                    @if($p->estado == 0)
-                                        <button id="estado-{{$p->id}}" data-id="{{$p->id}}" class="btn btn-success btn-sm cambia_estado"><i class="fa fa-btn fa-user"></i</button>
-                                    @elseif($p->estado == 1)
-                                        <button id="estado-{{$p->id}}" data-id="{{$p->id}}" class="btn btn-danger btn-sm cambia_estado">Desactivar</button>
-                                    @endif
-                                </td>
-                                <td><a class="btn btn-warning btn-sm" href="{{ URL::action('UsuariosController@edit',['id' => $p->id]) }}">Modificar</a></td>
+                                <td><a class="btn btn-warning btn-sm" href="{{ URL::action('ParteFuerzaController@edit',['id' => $p->id]) }}">Modificar</a></td>
                                 <td><button class="btn btn-success btn-sm parte-detail" data-id="{{$p->id}}">Ver Detalle</button></td>
                             </tr>                             
                             @endforeach                             
@@ -67,7 +58,8 @@
       <div class="modal-body">
       <div class="row">
         <div class="col-md-6">
-        	<table class="table table-hover">
+            <h3 class="text-center">Parte Fuerza</h3>
+        	<table class="table table-hover table-bordered">
 	        	<thead>
 	        		<tr>
 	        			<td><strong>CAT</strong></td>
@@ -123,7 +115,8 @@
         	</table>
         </div>
         <div class="col-md-6">
-        	<table class="table table-hover">
+            <h3 class="text-center">Demostración</h3>
+        	<table class="table table-hover table-bordered">
 	        	<thead>
 	        		<tr>
 	        			<td><strong>CANTIDAD</strong></td>
@@ -131,11 +124,10 @@
 	        		</tr>
 	        	</thead>
 	        	<tbody>
-	        	{{$p->responsable->rut}}
 	        	@foreach($p->demostracion as $d)
 	        		<tr>
 	        			<td>{{$d->cantidad}}</td>
-	        			<td>{{$d->motivo_id}}</td>
+	        			<td>{{$d->motivo->motivo}}</td>
 	        		</tr>
 	        	@endforeach 
 
@@ -145,8 +137,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-        <button type="button" class="btn btn-danger confirm-delete">Eliminar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
       </div>
     </div>
   </div>

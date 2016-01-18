@@ -120,7 +120,7 @@
                                                 {!! Form::select('motivo', $motivos, null, ['id'=>'motivo_demo','class' => 'form-control', 'placeholder' => 'Selecciona motivo']) !!}
                                             </div>
                                             <div class="col-md-2">
-                                                <button id="add_motivo" class="btn btn-success">Agregar Motivo</button>
+                                                <a id="add_motivo" class="btn btn-success">Agregar Motivo</a>
                                             </div>                                    
                                         </div>
                                     </div>
@@ -142,8 +142,8 @@
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-8">
                                 <div class="form-inline">
-                                    <button class="btn btn-danger">Cancelar</button>
-                                    <input type="submit" class="btn btn-success" value="Guardar Parte"></input>
+                                    <a href="{{ URL::action('ParteFuerzaController@index') }}" class="btn btn-danger">Cancelar</a>
+                                    <input type="submit" class="btn btn-success" value="Guardar Parte">
                                 </div>
                             </div>
                             </div>
@@ -283,31 +283,51 @@
         var motivo = $("select[name='motivo']").val();
         var total_faltante = parseInt($("#faltan_total").text());
         var total_tabla = 0;
-        var motivo_nombre = $( "#motivo_demo option:selected" ).text();
+        var motivo_nombre = $( "#motivo_demo").find("option:selected" ).text();
+        var agregado = false;
 
-        
-            if(cantidad > 0 && motivo != ""){
-                if(cantidad <= total_faltante)
+
+        if(cantidad > 0 && motivo != ""){
+            if(cantidad <= total_faltante)
+            {
+                $('#demostracion-tabla').find('tbody tr td:nth-child(1) input').each( function(){
+                    //add item to array
+                    total_tabla = total_tabla + parseInt($(this).val());
+                });
+
+                if(total_tabla+cantidad <= total_faltante)
                 {
-                    $('#demostracion-tabla tbody tr td:nth-child(1) input').each( function(){
-                       //add item to array
-                       total_tabla = total_tabla + parseInt($(this).val());   
+                    $('#demostracion-tabla').find('tbody tr td:nth-child(2) input').each( function(){
+                        //add item to array
+                        if($(this).val() == motivo){
+                            cant_actual = parseInt($(this).parent().parent().find('td').eq(0).find('input').val());
+                            cant_actual += cantidad;
+                            $(this).parent().parent().find('td').eq(0).find('input').val(cant_actual);
+                            $(this).parent().parent().find('td').eq(0).find('span').text(cant_actual);
+                            agregado = true;
+                        }
+
                     });
 
-                    console.log(total_tabla);
-                    if(total_tabla+cantidad <= total_faltante)
-                    {
-                        $("#demostracion-tabla tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><button class="btn btn-danger btn-sm del-demo">eliminar</button></td></tr>');                
+                    if(!agregado){
+                        $("#demostracion-tabla").find("tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'"><span>'+cantidad+'</span></td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><input type="hidden" name="ids[]" value=""><button class="btn btn-danger btn-sm del-demo">eliminar</button></td></tr>');
+                        agregado = false;
                     }
-                    else{
-                        console.log("ya complestaste a los faltantes");
-                    }
-                    
                 }
                 else{
-                    console.log("sobrepasa total faltante");
+                    console.log("ya complestaste a los faltantes");
+                    return false;
                 }
+
             }
+            else{
+                console.log("sobrepasa total faltante");
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
         return false;
     });
 

@@ -15,7 +15,7 @@ class DetalleFaltantes extends Model
 
     public function motivo()
     {
-    	return $this->hasOne('App\Models\Motivo');
+    	return $this->belongsTo('App\Models\Motivo');
     }
 
 }

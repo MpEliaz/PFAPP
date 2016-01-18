@@ -30,7 +30,7 @@ class ParteFuerzaController extends Controller
      */
     public function index()
     {
-        $partes = ParteFuerza::with('responsable')->with('demostracion')->get(); 
+        $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->orderBy('id','desc')->get();
         //return $partes;
         return view('partefuerza.index',['partes'=> $partes]);
 
@@ -102,7 +102,7 @@ class ParteFuerzaController extends Controller
             }
         }
 
-        return $parte;
+        return redirect()->action('ParteFuerzaController@index');
         
     }
 
@@ -125,7 +125,17 @@ class ParteFuerzaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $parte = ParteFuerza::findOrFail($id);
+        $parte->demostracion;
+
+        foreach($parte->demostracion as $d){
+
+            $d->motivo;
+        }
+
+        $motivos = Motivo::lists('motivo', 'id');
+        //return $parte;
+        return view('partefuerza.modificar_parte',['parte'=> $parte, 'motivos' => $motivos]);
     }
 
     /**
@@ -135,9 +145,49 @@ class ParteFuerzaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ParteFuerzaRequest $request, $id)
     {
-        //
+        $parte = ParteFuerza::findOrFail($id);
+        $parte->demostracion;
+        if(isset($parte)){
+
+            $parte->of_fuerza = (int)$request->of_fuerza;
+            $parte->of_forman = (int)$request->of_forman;
+            $parte->of_faltan = (int)$request->of_faltan;
+            $parte->cp_fuerza = (int)$request->cp_fuerza;
+            $parte->cp_forman = (int)$request->cp_forman;
+            $parte->cp_faltan = (int)$request->cp_faltan;
+            $parte->sltp_fuerza = (int)$request->sltp_fuerza;
+            $parte->sltp_forman = (int)$request->sltp_forman;
+            $parte->sltp_faltan = (int)$request->sltp_faltan;
+            $parte->slc_fuerza = (int)$request->slc_fuerza;
+            $parte->slc_forman = (int)$request->slc_forman;
+            $parte->slc_faltan = (int)$request->slc_faltan;
+            $parte->ec_fuerza = (int)$request->ec_fuerza;
+            $parte->ec_forman = (int)$request->ec_forman;
+            $parte->ec_faltan = (int)$request->ec_faltan;
+            $parte->alumnos_fuerza = (int)$request->alumnos_fuerza;
+            $parte->alumnos_forman = (int)$request->alumnos_forman;
+            $parte->alumnos_faltan = (int)$request->alumnos_faltan;
+            $parte->fuerza_total = (int)$request->of_fuerza+(int)$request->cp_fuerza+(int)$request->sltp_fuerza+(int)$request->slc_fuerza+(int)$request->ec_fuerza+(int)$request->alumnos_fuerza;
+            $parte->forman_total = (int)$request->of_forman+(int)$request->cp_forman+(int)$request->sltp_forman+(int)$request->slc_forman+(int)$request->ec_forman+(int)$request->alumnos_forman;
+            $parte->faltan_total = (int)$request->of_faltan+(int)$request->cp_faltan+(int)$request->sltp_faltan+(int)$request->slc_faltan+(int)$request->ec_faltan+(int)$request->alumnos_faltan;
+        }
+        $demostracion = [];
+
+        foreach($request->cantidad as $key => $value){
+            $demostracion = ['id' => $request->ids[$key], 'cantidad' => $request->cantidad[$key], 'motivo' => $request->motivos[$key]];
+        }
+
+        for( $i=0; $i < $parte->demostracion; $i++){
+            if($parte->demostracion[i]->id == $demostracion[i]->id){
+                $parte->demostracion[i]->cantidad = $demostracion[i]->cantidad;
+            }
+        }
+
+        return $demostracion;
+
+        return $parte;
     }
 
     /**

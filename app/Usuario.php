@@ -42,6 +42,6 @@ class Usuario extends Authenticatable
 
     public function partes_de_fuerza()
     {
-      return $this->belongsTo('App\Models\ParteFuerza');
+      return $this->hasMany('App\Models\ParteFuerza');
     }
 }

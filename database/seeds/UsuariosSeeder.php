@@ -13,17 +13,15 @@ class UsuariosSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-        
-    	foreach (range(1,10) as $index) {
-	        DB::table('usuarios')->insert([
-	            'rut' => $faker->email,
-	            'nombres' => $faker->firstNameMale,
-	            'apellido_p' => $faker->lastName,
-	            'apellido_m' => $faker->lastName,
-	            'password' => bcrypt('secret'),
-	            'rol' => 1,
-	            'estado' => true
-	        ]);
+		DB::table('usuarios')->insert([
+			'rut' => '17.288.811-9',
+			'nombres' => 'Elías Enoc',
+			'apellido_m' => 'Millachine',
+			'apellido_p' => 'Pérez',
+			'password' => bcrypt('123'),
+			'rol_id' => 1,
+			'estado' => 1,
+			'grado_id' => 1
+		]);
     }
 }
