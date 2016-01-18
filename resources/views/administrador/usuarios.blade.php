@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a class="btn btn-success" href="{{ URL::action('UsuariosController@create') }}">Agregar Nuevo</a>
+                <a class="btn btn-primary" href="{{ URL::action('UsuariosController@asignar_unidad') }}">Asignar Unidad</a>
 
                 <br>
                 <br>
@@ -13,16 +14,15 @@
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <td>Rut</td>
-                                <td>Grado</td>
+                                <td>Unidad</td>
                                 <td>Nombres</td>
-                                <td>Paterno</td>
-                                <td>Materno</td>
                                 <td>Rol</td>
-                                <td style="width: 90px;">Estado</td>
-                                <td style="width: 90px;">Modificar</td>
-                                <td style="width: 90px;">Eliminar</td>
+                                <td style="width: 10%">Asignar Unidad</td>
+                                <td style="width: 5%">Estado</td>
+                                <td style="width: 5%">Modificar</td>
+                                <td style="width: 5%">Eliminar</td>
                             </tr>
                             </thead>
                             <tbody class="table-hover">
@@ -30,11 +30,10 @@
                             @foreach($usuarios as $u)
                             <tr>
                                 <td>{{$u->rut}}</td>
-                                <td>{{$u->grado->nombre}}</td>
-                                <td>{{$u->nombres}}</td>
-                                <td>{{$u->apellido_p}}</td>
-                                <td>{{$u->apellido_m}}</td>
+                                <td>{{$u->unidad_id}}</td>
+                                <td><strong>{{$u->grado->sigla." ".$u->nombres." ".$u->apellido_p." ".$u->apellido_m}}</strong></td>
                                 <td>{{$u->rol->nombre}}</td>
+                                <td class="text-center"><a class="btn btn-warning btn-sm" href="{{ URL::to('usuarios/asignar_unidad',['id' => $u->id]) }}">Asignar</td>
                                 <td>                  
                                     @if($u->estado == 0)
                                         <button id="estado-{{$u->id}}" data-id="{{$u->id}}" class="btn btn-success btn-sm cambia_estado">Activar</button>

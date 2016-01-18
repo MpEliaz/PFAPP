@@ -77,7 +77,21 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>                        
+                        </div>
+
+                        <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Unidad</label>
+
+                            <div class="col-md-6">
+                               {!! Form::select('unidad_id', $unidades, $usuario->unidad_id, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
+
+                                @if ($errors->has('unidad_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('unidad_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>                                                    
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Password</label>
@@ -114,7 +128,7 @@
                             <div class="col-md-6 col-md-offset-4">
                         
                                 <a class="btn btn-primary" href="{{ URL::action('UsuariosController@index') }}">Ver Todos</a>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     <i class="fa fa-btn fa-user"></i>Guardar Cambios
                                 </button>
                             </div>

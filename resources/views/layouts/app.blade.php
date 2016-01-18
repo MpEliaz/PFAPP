@@ -49,8 +49,12 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Inicio</a></li>
+                    @if (Auth::check())
+                    @if(Auth::user()->isAdmin())
                     <li><a href="{{ url('/usuarios') }}">Usuarios</a></li>
+                    @endif
                     <li><a href="{{ url('/partefuerza') }}">Parte de Fuerza</a></li>
+                    @endif
                 </ul>
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -61,7 +65,7 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->nombres }} <span class="caret"></span>
+                                {{ Auth::user()->grado->sigla." ".Auth::user()->nombres." ".Auth::user()->apellido_p." ".Auth::user()->apellido_m }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">

@@ -22,6 +22,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Unidad</label>
+
+                            <div class="col-md-6">
+                                    <p>{{ $usuario->unidad_id }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Rol</label>
 
                             <div class="col-md-6">

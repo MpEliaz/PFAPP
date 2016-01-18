@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Usuario;
 use App\Models\Grado;
+use App\Models\Unidad;
 use App\Models\Rol;
 use App\Http\Requests\UsuarioForm;
 
@@ -42,7 +43,8 @@ class UsuariosController extends Controller
     {
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
-        return view("administrador.crear_usuario", ['grados' => $grados, 'roles' => $roles]);
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(5);
+        return view("administrador.crear_usuario", ['grados' => $grados, 'roles' => $roles, 'unidades' => $unidades]);
     }
 
     /**
@@ -55,6 +57,7 @@ class UsuariosController extends Controller
     {
        $user = new Usuario([
         'rut' => $usuario->rut,
+        'unidad_id' => $usuario->unidad_id,
         'nombres' => $usuario->nombres,
         'apellido_p' => $usuario->apellido_p,
         'apellido_m' => $usuario->apellido_m,
@@ -97,9 +100,10 @@ class UsuariosController extends Controller
 
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(5);
 
         if($usuario != null){
-            return view('administrador.modificar_usuario')->with(['usuario' => Usuario::find($id), 'grados'=> $grados, 'roles'=> $roles]);
+            return view('administrador.modificar_usuario')->with(['usuario' => Usuario::find($id), 'grados'=> $grados, 'roles'=> $roles, 'unidades' => $unidades]);
         }
         else{
             return "usuario no existe";
@@ -121,6 +125,7 @@ class UsuariosController extends Controller
         if(isset($user)){
 
             $user->rut = $usuario->rut;
+            $user->unidad_id = $usuario->unidad_id;
             $user->nombres = $usuario->nombres;
             $user->apellido_p = $usuario->apellido_p;
             $user->apellido_m = $usuario->apellido_m;
@@ -171,6 +176,12 @@ class UsuariosController extends Controller
                 return response()->json('{"id":'.$user->id.', "estado":'.$user->estado.', "err":"false"}');
               }
         }
+    }
+
+    public function asignar_unidad($id)
+    {
+        //return view('administrador.asignar_usuario');
+        return "hola";
     }
 
 

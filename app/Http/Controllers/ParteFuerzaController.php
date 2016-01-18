@@ -30,7 +30,14 @@ class ParteFuerzaController extends Controller
      */
     public function index()
     {
-        $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->orderBy('id','desc')->get();
+        $partes = [];
+        if(Auth::user()->isAdmin()){
+            $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->orderBy('id','desc')->get();
+        }
+
+        if(Auth::user()->rol_id == 3){
+            $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->where('responsable','=', Auth::user()->id)->orderBy('id','desc')->get();
+        }
         //return $partes;
         return view('partefuerza.index',['partes'=> $partes]);
 
@@ -125,17 +132,21 @@ class ParteFuerzaController extends Controller
      */
     public function edit($id)
     {
-        $parte = ParteFuerza::findOrFail($id);
-        $parte->demostracion;
-
-        foreach($parte->demostracion as $d){
+        $parte = ParteFuerza::where('id','=',$id)->where('responsable','=',Auth::user()->id)->first();
+        if(isset($parte)){
+            $parte->demostracion; 
+           foreach($parte->demostracion as $d){
 
             $d->motivo;
+            }
         }
 
         $motivos = Motivo::lists('motivo', 'id');
         //return $parte;
-        return view('partefuerza.modificar_parte',['parte'=> $parte, 'motivos' => $motivos]);
+        if(isset($parte)){
+            return view('partefuerza.modificar_parte',['parte'=> $parte, 'motivos' => $motivos]);
+        }
+        return response()->view('errors.custom', [], 500);
     }
 
     /**
@@ -147,10 +158,11 @@ class ParteFuerzaController extends Controller
      */
     public function update(ParteFuerzaRequest $request, $id)
     {
-        $parte = ParteFuerza::findOrFail($id);
-        $parte->demostracion;
+        $parte = ParteFuerza::where('id','=',$id)->where('responsable','=',Auth::user()->id)->first();
         if(isset($parte)){
 
+        $parte->demostracion;
+            $parte->ultima_actualizacion = Carbon::now();
             $parte->of_fuerza = (int)$request->of_fuerza;
             $parte->of_forman = (int)$request->of_forman;
             $parte->of_faltan = (int)$request->of_faltan;
@@ -179,15 +191,18 @@ class ParteFuerzaController extends Controller
             $demostracion = ['id' => $request->ids[$key], 'cantidad' => $request->cantidad[$key], 'motivo' => $request->motivos[$key]];
         }
 
-        for( $i=0; $i < $parte->demostracion; $i++){
-            if($parte->demostracion[i]->id == $demostracion[i]->id){
-                $parte->demostracion[i]->cantidad = $demostracion[i]->cantidad;
-            }
-        }
+        echo $parte->demostracion[1]->id;
+        print_r($demostracion);
 
-        return $demostracion;
+        // for( $i=0; $i < $parte->demostracion; $i++){
+        //     if($parte->demostracion[i]->id == $demostracion[i]->id){
+        //         $parte->demostracion[i]->cantidad = $demostracion[i]->cantidad;
+        //     }
+        // }
 
-        return $parte;
+        //return $demostracion;
+
+        //return $parte;
     }
 
     /**

@@ -16,6 +16,7 @@ class AddTablaUsuarios extends Migration
             $table->increments('id');
             $table->string('rut')->unique();
             $table->string('nombres');
+            $table->string('unidad_id');
             $table->string('apellido_p');
             $table->string('apellido_m');
             $table->string('password');

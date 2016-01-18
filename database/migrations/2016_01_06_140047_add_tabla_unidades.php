@@ -12,11 +12,24 @@ class AddTablaUnidades extends Migration
      */
     public function up()
     {
-        Schema::create('unidades', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nombre');
-            $table->timestamps();
-        });
+        // Schema::create('unidades', function (Blueprint $table) {
+            
+        //     $table->primary('codunijic');
+        //     $table->string('codigosjic_des');
+        //     $table->string('codigosjic_ddoe');
+        //     $table->string('codigosjic_udoe');
+        //     $table->string('codigosjic_ddpe');
+        //     $table->string('codigosjic_udpe');
+        //     $table->string('codigosjic_jerar');
+        //     $table->string('codigosjic_activo');
+        //     $table->integer('codigosjic_historia');
+        //     $table->string('codigosjic_abrev');
+        //     $table->string('codigosjic_sigla');
+        //     $table->string('codigosjic_link');
+        //     $table->string('codigosjic_inest');
+        //     $table->string('codigosjic_tipo');
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -26,6 +39,6 @@ class AddTablaUnidades extends Migration
      */
     public function down()
     {
-        Schema::drop('unidades');
+        // Schema::drop('unidades');
     }
 }

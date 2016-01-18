@@ -14,7 +14,7 @@
 
 Route::get('verificar', function() {
     
-   // dd(\Auth::user());
+    dd(\Auth::user());
     
 });
 
@@ -38,7 +38,7 @@ Route::group(['middleware' => ['web']], function () {
         return view('welcome');
     });
     Route::get('/v', function(){
-    	dd( Auth::user());
+    	dd( Auth::user()->rol_id);
 
     });    
     
@@ -47,6 +47,7 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::group(['middleware' => ['auth']], function(){
     	Route::resource('partefuerza', 'ParteFuerzaController');
+        Route::get('usuarios/asignar_unidad/{$id}', 'UsuariosController@asignar_unidad');
         Route::resource('usuarios', 'UsuariosController');
     });
 });

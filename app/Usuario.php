@@ -44,4 +44,14 @@ class Usuario extends Authenticatable
     {
       return $this->hasMany('App\Models\ParteFuerza');
     }
+
+    public function isAdmin()
+    {
+        if($this->rol_id == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

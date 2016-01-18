@@ -14,11 +14,11 @@ class AddTablaParteFuerza extends Migration
     {
         Schema::create('parte_fuerza', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('unidad_id')->unsigned()->nullable();
-            $table->foreign('unidad_id')->references('id')->on('unidades');
+            $table->string('unidad_id')->nullable();
             $table->integer('responsable')->unsigned();
             $table->foreign('responsable')->references('id')->on('usuarios');
             $table->dateTime('creado_el');
+            $table->dateTime('ultima_actualizacion');
             $table->boolean('estado');
             $table->integer('fuerza_total');
             $table->integer('forman_total');
