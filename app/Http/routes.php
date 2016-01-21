@@ -46,9 +46,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home', 'HomeController@index');
     
     Route::group(['middleware' => ['auth']], function(){
+
+        //Rutas Parte
+        Route::delete('partefuerza/eliminar_motivo', 'ParteFuerzaController@eliminar_motivos');
     	Route::resource('partefuerza', 'ParteFuerzaController');
-        Route::get('usuarios/asignar_unidad/{$id}', 'UsuariosController@asignar_unidad');
+
+        //Rutas Usuario
+        Route::get('usuarios/asignar', 'UsuariosController@asignar');
+        Route::post('usuarios/asignar', 'UsuariosController@guardar_asignado');
+        Route::get('usuarios/{id}/asignar_unidad', 'UsuariosController@asignar_unidad');
         Route::resource('usuarios', 'UsuariosController');
+
     });
 });
 

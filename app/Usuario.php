@@ -13,7 +13,7 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'rut', 'nombres', 'apellido_p', 'apellido_m', 'password', 'rol_id', 'estado', 'grado_id'
+        'rut', 'nombres','unidad_id', 'apellido_p', 'apellido_m', 'password', 'rol_id', 'estado', 'grado_id'
     ];
 
     /**
@@ -40,6 +40,11 @@ class Usuario extends Authenticatable
       return $this->id;
     }
 
+    public function unidad()
+    {
+      return $this->hasOne('App\Models\Unidad', 'codunijic', 'unidad_id');
+    }    
+
     public function partes_de_fuerza()
     {
       return $this->hasMany('App\Models\ParteFuerza');
@@ -53,5 +58,10 @@ class Usuario extends Authenticatable
         else{
             return false;
         }
+    }
+
+    public function unidades_asignadas()
+    {
+      return $this->belongsToMany('App\Models\Unidad', 'usuario_unidad', 'usuario', 'unidad')->select('codunijic');
     }
 }

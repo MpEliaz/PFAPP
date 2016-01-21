@@ -16,7 +16,7 @@ class AddTablaParteFuerza extends Migration
             $table->increments('id');
             $table->string('unidad_id')->nullable();
             $table->integer('responsable')->unsigned();
-            $table->foreign('responsable')->references('id')->on('usuarios');
+            $table->foreign('responsable')->references('id')->on('usuarios')->onDelete('cascade');
             $table->dateTime('creado_el');
             $table->dateTime('ultima_actualizacion');
             $table->boolean('estado');

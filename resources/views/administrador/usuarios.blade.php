@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a class="btn btn-success" href="{{ URL::action('UsuariosController@create') }}">Agregar Nuevo</a>
-                <a class="btn btn-primary" href="{{ URL::action('UsuariosController@asignar_unidad') }}">Asignar Unidad</a>
+                {{-- <a class="btn btn-primary" href="{{ URL::action('UsuariosController@asignar_unidad') }}">Asignar Unidad</a> --}}
 
                 <br>
                 <br>
@@ -30,10 +30,10 @@
                             @foreach($usuarios as $u)
                             <tr>
                                 <td>{{$u->rut}}</td>
-                                <td>{{$u->unidad_id}}</td>
+                                <td>{{$u->unidad->codigosjic_sigla}}</td>
                                 <td><strong>{{$u->grado->sigla." ".$u->nombres." ".$u->apellido_p." ".$u->apellido_m}}</strong></td>
                                 <td>{{$u->rol->nombre}}</td>
-                                <td class="text-center"><a class="btn btn-warning btn-sm" href="{{ URL::to('usuarios/asignar_unidad',['id' => $u->id]) }}">Asignar</td>
+                                <td class="text-center"><a class="btn btn-primary btn-sm" href="{{ URL::to('usuarios/'.$u->id.'/asignar_unidad') }}">Asignar</td>
                                 <td>                  
                                     @if($u->estado == 0)
                                         <button id="estado-{{$u->id}}" data-id="{{$u->id}}" class="btn btn-success btn-sm cambia_estado">Activar</button>
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

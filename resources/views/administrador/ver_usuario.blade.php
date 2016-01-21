@@ -25,7 +25,7 @@
                             <label class="col-md-4 control-label">Unidad</label>
 
                             <div class="col-md-6">
-                                    <p>{{ $usuario->unidad_id }}</p>
+                                    <p>{{$usuario->unidad->codigosjic_des}}</p>
                             </div>
                         </div>
 

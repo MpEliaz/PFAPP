@@ -27,6 +27,6 @@ class AddTablaGrados extends Migration
      */
     public function down()
     {
-        Schema::drop('grados');
+        //Schema::drop('grados');
     }
 }

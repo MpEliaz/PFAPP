@@ -14,11 +14,12 @@ class UsuarioParte extends Migration
     {
         Schema::create('usuario_unidad', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('usuario')->unsigned();
-            $table->integer('unidad')->unsigned();
+            $table->integer('usuario')->unsigned()->index();
+            $table->foreign('usuario')->references('id')->on('usuarios')->OnDelete('cascade');
+            $table->string('unidad')->index();
+            $table->foreign('unidad')->references('codunijic')->on('unidades')->OnDelete('cascade');
+            
             $table->boolean('estado');
-            $table->foreign('usuario')->references('id')->on('usuarios');
-            //$table->foreign('unidad')->references('codunijic')->on('unidadades');
             $table->timestamps();
         });
     }
@@ -30,6 +31,9 @@ class UsuarioParte extends Migration
      */
     public function down()
     {
-        Schema::drop('usuario_unidad');
+        //Schema::drop('usuario_unidad');
+        Schema::drop('usuarios');
+        Schema::drop('grados');
+        Schema::drop('roles');
     }
 }

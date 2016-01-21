@@ -11,37 +11,18 @@
                     <div class="row">
                     <div class="col-md-6">
                     <h3 class="text-center">Usuario</h3>
-                    <input type="hidden" name="id_usuario" value="{{ $usuario->id }}"></input>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Rut</label>
-                            <div class="col-md-7">
-                                	<p>{{ $usuario->rut }}</p>
+                        <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
+                            <div class="col-md-12">
+                               {!! Form::select('id_usuario', $usuarios, null, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
+
+                                @if ($errors->has('unidad_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('unidad_id') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Nombre</label>
-
-                            <div class="col-md-7">
-                                	<p><strong>{{ $usuario->grado->sigla." ".$usuario->nombres." ".$usuario->apellido_p." ".$usuario->apellido_m }}</strong></p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Unidad</label>
-
-                            <div class="col-md-7">
-                                    <p>aaa</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Rol</label>
-
-                            <div class="col-md-7">
-                                	<p>{{ $usuario->rol->nombre }}</p>
-                            </div>
-                        </div>                   	
-                    </div>                                                          
+                        </div>                      	
+                    </div>                                                         
                     <div class="col-md-6">
                     <h3 class="text-center">Unidad</h3>
                         <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
@@ -64,11 +45,10 @@
 						<input class="btn btn-success btn-sm" type="submit" value="Asignar Unidad a Usuario"></input>
                     </div>
                     </div>
-                    {!! Form::close() !!}                                                          
+                    {!! Form::close() !!}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{$usuario->unidades_asignadas}}
 @endsection

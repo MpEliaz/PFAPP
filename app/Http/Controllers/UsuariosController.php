@@ -14,13 +14,16 @@ use App\Http\Requests\UsuarioForm;
 
 class UsuariosController extends Controller
 {
-/*    public function __construct()
+    public function __construct()
     {
-        $this->middleware('auth');
-          $this->middleware('throttle', ['only' => [
-             'cambiar_estado',
-         ]]);
-    }*/
+/*        $this->middleware('auth');*/
+        // $this->middleware('Administrador', ['only' => [
+        //      'cambiar_estado',
+        //      'guardar_asignado',
+        //      'asignar',
+        //      'asignar_unidad',
+        //  ]]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -29,8 +32,16 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::with('grado')->with('rol')->get();
+        $usuarios = Usuario::with('grado')->with('rol')
 
+        ->with(array('unidad'=>function($query){
+            $query->select('codunijic', 'codigosjic_des', 'codigosjic_sigla');
+        }))
+        ->with(array('unidades_asignadas'=>function($query){
+            $query->select('codunijic');
+        }))->get();
+
+        //return $usuarios;
         return view('administrador.usuarios',['usuarios'=> $usuarios]);
     }
 
@@ -43,7 +54,7 @@ class UsuariosController extends Controller
     {
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(5);
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
         return view("administrador.crear_usuario", ['grados' => $grados, 'roles' => $roles, 'unidades' => $unidades]);
     }
 
@@ -66,7 +77,6 @@ class UsuariosController extends Controller
         'grado_id' => (int)$usuario->grado_id,
         'estado' => 0,
     ]);     
-        
         $id = $user->save();
         return redirect()->action('UsuariosController@index');
     }
@@ -82,6 +92,7 @@ class UsuariosController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->grado;
         $usuario->rol;
+        $usuario->unidad;
 
         //return response()->json($usuario);
         return view('administrador.ver_usuario',['usuario' => $usuario]);
@@ -100,7 +111,7 @@ class UsuariosController extends Controller
 
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(5);
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
 
         if($usuario != null){
             return view('administrador.modificar_usuario')->with(['usuario' => Usuario::find($id), 'grados'=> $grados, 'roles'=> $roles, 'unidades' => $unidades]);
@@ -180,9 +191,24 @@ class UsuariosController extends Controller
 
     public function asignar_unidad($id)
     {
-        //return view('administrador.asignar_usuario');
-        return "hola";
+        $user = Usuario::findOrFail($id);
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
+        return view('administrador.asignar_usuario',['usuario' => $user, 'unidades' => $unidades]);
     }
+
+     public function asignar()
+    {
+        $usuarios = Usuario::lists('nombres', 'id');
+        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
+        return view('administrador.asignar',['usuarios' => $usuarios, 'unidades' => $unidades]);
+        //return $unidades;
+    }
+
+    public function guardar_asignado(Request $request)
+    {
+        dd($request->all());
+    }
+
 
 
 }

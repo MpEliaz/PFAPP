@@ -52,6 +52,7 @@
                     @if (Auth::check())
                     @if(Auth::user()->isAdmin())
                     <li><a href="{{ url('/usuarios') }}">Usuarios</a></li>
+                    <li><a href="{{ url('/usuarios/asignar') }}">Asignar Usuario a Unidad</a></li>
                     @endif
                     <li><a href="{{ url('/partefuerza') }}">Parte de Fuerza</a></li>
                     @endif

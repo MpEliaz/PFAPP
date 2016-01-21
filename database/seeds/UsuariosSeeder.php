@@ -15,6 +15,7 @@ class UsuariosSeeder extends Seeder
     {
 		DB::table('usuarios')->insert([
 			'rut' => '17.288.811-9',
+			'unidad_id' => 'C000002',
 			'nombres' => 'Elías Enoc',
 			'apellido_p' => 'Millachine',
 			'apellido_m' => 'Pérez',
@@ -26,6 +27,7 @@ class UsuariosSeeder extends Seeder
 
 		DB::table('usuarios')->insert([
 			'rut' => '11.111.111-1',
+			'unidad_id' => 'C000007',
 			'nombres' => 'Juan ',
 			'apellido_p' => 'Pérez',
 			'apellido_m' => 'Castro',

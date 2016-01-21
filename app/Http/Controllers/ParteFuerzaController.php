@@ -50,8 +50,10 @@ class ParteFuerzaController extends Controller
      */
     public function create()
     {
-        $motivos = Motivo::lists('motivo', 'id');
-        return view('partefuerza.crear_parte', ['motivos' => $motivos]);
+      return Auth::user()->unidades_asignadas;
+
+        //$motivos = Motivo::lists('motivo', 'id');
+        //return view('partefuerza.crear_parte', ['motivos' => $motivos]);
     }
 
     /**
@@ -160,7 +162,7 @@ class ParteFuerzaController extends Controller
     {
         $parte = ParteFuerza::where('id','=',$id)->where('responsable','=',Auth::user()->id)->first();
         if(isset($parte)){
-
+        //dd($request->all());
         $parte->demostracion;
             $parte->ultima_actualizacion = Carbon::now();
             $parte->of_fuerza = (int)$request->of_fuerza;
@@ -184,24 +186,54 @@ class ParteFuerzaController extends Controller
             $parte->fuerza_total = (int)$request->of_fuerza+(int)$request->cp_fuerza+(int)$request->sltp_fuerza+(int)$request->slc_fuerza+(int)$request->ec_fuerza+(int)$request->alumnos_fuerza;
             $parte->forman_total = (int)$request->of_forman+(int)$request->cp_forman+(int)$request->sltp_forman+(int)$request->slc_forman+(int)$request->ec_forman+(int)$request->alumnos_forman;
             $parte->faltan_total = (int)$request->of_faltan+(int)$request->cp_faltan+(int)$request->sltp_faltan+(int)$request->slc_faltan+(int)$request->ec_faltan+(int)$request->alumnos_faltan;
+
+            $parte->save();
+
+            $cantidad = $request->cantidad;
+            $motivos = $request->motivos;
+            $ids = $request->ids;
+
+            $demostracion = [];
+
+            if(isset($cantidad))
+            {
+                foreach ($cantidad as $key => $cant) {
+
+                  $demostracion[$key] = ['id' => $ids[$key], 'cantidad' => $cant, 'motivo' => $motivos[$key]];
+
+                  // $detail = new DetalleFaltantes();
+                  // $detail->cantidad = (int)$cant;
+                  // $detail->partefuerza_id = (int)$parte->id;
+                  // $detail->motivo_id = (int)$motivo[$key];
+                  // $detail->save();
+                
+                }
+
+                foreach ($demostracion as $d) {
+
+                  $motivo = DetalleFaltantes::find($d['id']);  
+              
+                  if(isset($motivo))
+                  {
+                    $motivo->cantidad = (int)$d['cantidad'];
+                    $motivo->save();
+                  }
+
+                  else{
+
+                    $detail = new DetalleFaltantes();
+                    $detail->cantidad = (int)$d['cantidad'];
+                    $detail->partefuerza_id = (int)$parte->id;
+                    $detail->motivo_id = (int)$d['motivo'];
+                    $detail->save();
+                  }
+
+                }
+            }
+            //dd($demostracion);
+            
         }
-        $demostracion = [];
-
-        foreach($request->cantidad as $key => $value){
-            $demostracion = ['id' => $request->ids[$key], 'cantidad' => $request->cantidad[$key], 'motivo' => $request->motivos[$key]];
-        }
-
-        echo $parte->demostracion[1]->id;
-        print_r($demostracion);
-
-        // for( $i=0; $i < $parte->demostracion; $i++){
-        //     if($parte->demostracion[i]->id == $demostracion[i]->id){
-        //         $parte->demostracion[i]->cantidad = $demostracion[i]->cantidad;
-        //     }
-        // }
-
-        //return $demostracion;
-
+        return redirect()->action('ParteFuerzaController@index');
         //return $parte;
     }
 
@@ -214,5 +246,23 @@ class ParteFuerzaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function eliminar_motivos(Request $request)
+    {
+        if($request->ajax()) {
+              $motivo = DetalleFaltantes::findOrFail($request->id);
+
+              if(isset($motivo)){
+
+                $motivo->delete();
+                return response()->json('{"id":'.$motivo->id.', "completed":"true"}');
+              }
+              else{
+                return response()->json('{"id":'.$motivo->id.', "completed":"false"}');
+              }
+         // return 'llegué!!';
+        }
+
     }
 }

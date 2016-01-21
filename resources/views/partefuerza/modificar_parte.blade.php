@@ -140,7 +140,10 @@
 
                                                 <td><input type="hidden" name="cantidad[]" value="{{$d->cantidad}}"><span>{{$d->cantidad}}</span></td>
                                                 <td><input type="hidden" name="motivos[]" value="{{$d->motivo_id}}"><span>{{$d->motivo->motivo}}</span></td>
-                                                <td><input type="hidden" name="ids[]" value="{{$d->id}}"><button class="btn btn-danger btn-sm del-demo">eliminar</button></td>
+                                                <td>
+                                                <input type="hidden" name="ids[]" value="{{$d->id}}">
+                                                <a class="btn btn-danger btn-sm del-demo" data-id="{{$d->id}}" onclick="eliminar(this)">Eliminar</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -161,6 +164,25 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    {{-- MODAL CONFIRMA ELIMINACION --}}
+    <div class="modal fade" id="modal_delete_motivo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Confirmación</h4>
+          </div>
+          <div class="modal-body">
+            <h4>Desea eliminar motivo?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+            <button type="button" class="btn btn-danger confirm-delete">Eliminar</button>
+          </div>
+        </div>
+      </div>
     </div>
 @endsection
 
@@ -281,10 +303,6 @@
         }
 
 
-        $("#demostracion-tabla").on('click','.del-demo',function() {
-            $(this).closest('tr').remove();
-        });
-
         $("#add_motivo").click(function(event) {
 
             var cantidad = parseInt($("input[name='demo-cant']").val());
@@ -318,7 +336,7 @@
                         });
 
                         if(!agregado){
-                            $("#demostracion-tabla").find("tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'"><span>'+cantidad+'</span></td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><input type="hidden" name="ids[]" value=""><button class="btn btn-danger btn-sm del-demo">eliminar</button></td></tr>');
+                            $("#demostracion-tabla").find("tbody").append('<tr><td><input type="hidden" name="cantidad[]" value="'+cantidad+'"><span>'+cantidad+'</span></td><td><input type="hidden" name="motivos[]" value="'+motivo+'">'+motivo_nombre+'</td><td><input type="hidden" name="ids[]" value=""><a class="btn btn-danger btn-sm del-demo" data-id="-1" onclick="eliminar(this)">Eliminar</a></td></tr>');
                             agregado = false;
                         }
                     }
@@ -338,6 +356,55 @@
             }
             return false;
         });
+
+    var id;
+    var row_delete = null;
+
+    function eliminar(e)
+    {
+        id = e.dataset.id;
+
+        if(id != "-1"){
+            $('#modal_delete_motivo').modal('toggle');
+            row_delete = $(e).parent().parent();
+        }
+        else{
+            $(e).closest('tr').remove();
+        }
+    }
+    // $('.del-demo').click(function(event) {
+
+        
+
+    // });
+
+    $('.confirm-delete').click(function(event) {
+        $.ajax({
+            url: '/partefuerza/eliminar_motivo',
+            type: 'DELETE',
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+            data: {id: id},
+        })
+        .done(function(data) {
+            console.log("success");
+            data = $.parseJSON(data);
+            if(data.completed = 'true'){
+                row_delete.remove();
+                console.log(data.id);
+                $('#modal_delete_motivo').modal('toggle');
+            }
+            //$(this).closest('tr').remove();
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+    });
 
 
     </script>

@@ -21,17 +21,11 @@ class Administrador
      */
     public function handle($request, Closure $next)
     {
-        switch($this->auth->user()->rol){
+        if($this->auth->user()->rol != 1){
 
-            case 1:
-                #Administrador
-                return redirect()->to('admin');
-                break;
-            default:
                 return redirect()->to('/');
-                break;
-
         }
+
         return $next($request);
     }
 }
