@@ -8,11 +8,14 @@
     <title>Partes de Fuerza Operativo Institucional</title>
 
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'> --}}
+    {!! Html::style('assets/css/font-awesome.min.css') !!} 
+    {{-- <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'> --}}
+    {{-- {!! Html::style('assets/css/google-fonts.css') !!}  --}}
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> --}}
+    {!! Html::style('assets/css/bootstrap.min.css') !!} 
     {!! Html::style('assets/css/main.css') !!} 
     {{-- <link href="{{ elixir('css/main.css') }}" rel="stylesheet"> --}}
 
@@ -51,8 +54,19 @@
                     <li><a href="{{ url('/') }}">Inicio</a></li>
                     @if (Auth::check())
                     @if(Auth::user()->isAdmin())
-                    <li><a href="{{ url('/usuarios') }}">Usuarios</a></li>
-                    <li><a href="{{ url('/usuarios/asignar') }}">Asignar Usuario a Unidad</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span>Usuarios</span>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/usuarios') }}">Ver Todos</a></li>
+                            <li><a href="{{ url('/usuarios/asignar') }}">Asignar Usuario a Unidad</a></li>
+                            <li><a href="{{ url('/usuarios/asignados') }}">Ver Usuarios Asignados</a></li>
+                        </ul>
+                    </li>
+                    
                     @endif
                     <li><a href="{{ url('/partefuerza') }}">Parte de Fuerza</a></li>
                     @endif
@@ -66,7 +80,7 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->grado->sigla." ".Auth::user()->nombres." ".Auth::user()->apellido_p." ".Auth::user()->apellido_m }} <span class="caret"></span>
+                               <strong> {{ Auth::user()->grado->sigla." ".Auth::user()->nombres." ".Auth::user()->apellido_p." ".Auth::user()->apellido_m }} </strong><span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">

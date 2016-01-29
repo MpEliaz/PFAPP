@@ -60,8 +60,18 @@ class Usuario extends Authenticatable
         }
     }
 
+    public function isUser()
+    {
+        if($this->rol_id == 3){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public function unidades_asignadas()
     {
-      return $this->belongsToMany('App\Models\Unidad', 'usuario_unidad', 'usuario', 'unidad')->select('codunijic');
+      return $this->belongsToMany('App\Models\Unidad', 'usuario_unidad', 'usuario', 'unidad')->select('codunijic', 'nombre', 'sigla');
     }
 }

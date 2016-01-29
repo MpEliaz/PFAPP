@@ -3,11 +3,13 @@
 @section('content')
     <div class="container spark-screen">
         <div class="row">
+        <h3 class="parte-unidad"><strong>{{Auth::user()->unidades_asignadas[0]->nombre}}</strong></h3>
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Crear parte de fuerza</div>
                     <div class="panel-body">
                     {!! Form::open(array('url' => 'partefuerza', 'action' => 'post', 'class' => 'form-horizontal')) !!}
+                    <input type="hidden"name="unidad_id" value="{{Auth::user()->unidades_asignadas[0]->codunijic }}">
                         <div class="row">
                             <div class="col-md-5">
                                 <table class="table table-hover">

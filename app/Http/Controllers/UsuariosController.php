@@ -17,12 +17,13 @@ class UsuariosController extends Controller
     public function __construct()
     {
 /*        $this->middleware('auth');*/
-        // $this->middleware('Administrador', ['only' => [
-        //      'cambiar_estado',
-        //      'guardar_asignado',
-        //      'asignar',
-        //      'asignar_unidad',
-        //  ]]);
+        $this->middleware('admin', ['only' => [ 
+             'guardar_asignado',
+             'asignar',
+             'asignar_unidad',
+             'edit',
+             'show'
+         ]]);
     }
 
     /**
@@ -35,10 +36,10 @@ class UsuariosController extends Controller
         $usuarios = Usuario::with('grado')->with('rol')
 
         ->with(array('unidad'=>function($query){
-            $query->select('codunijic', 'codigosjic_des', 'codigosjic_sigla');
+            $query->select('codunijic', 'nombre', 'sigla');
         }))
         ->with(array('unidades_asignadas'=>function($query){
-            $query->select('codunijic');
+            $query->select('codunijic', 'sigla', 'nombre');
         }))->get();
 
         //return $usuarios;
@@ -54,7 +55,7 @@ class UsuariosController extends Controller
     {
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
+        $unidades = Unidad::where('estado','=', '1')->lists('nombre','codunijic');
         return view("administrador.crear_usuario", ['grados' => $grados, 'roles' => $roles, 'unidades' => $unidades]);
     }
 
@@ -111,7 +112,7 @@ class UsuariosController extends Controller
 
         $grados = Grado::lists('nombre', 'id');
         $roles = Rol::lists('nombre', 'id');
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
+        $unidades = Unidad::where('estado','=', '1')->lists('nombre','codunijic');
 
         if($usuario != null){
             return view('administrador.modificar_usuario')->with(['usuario' => Usuario::find($id), 'grados'=> $grados, 'roles'=> $roles, 'unidades' => $unidades]);
@@ -140,7 +141,7 @@ class UsuariosController extends Controller
             $user->nombres = $usuario->nombres;
             $user->apellido_p = $usuario->apellido_p;
             $user->apellido_m = $usuario->apellido_m;
-            $user->password = bcrypt($usuario->password);
+            //$user->password = bcrypt($usuario->password);
             $user->rol_id = (int)$usuario->rol;
             $user->grado_id = (int)$usuario->grado_id;
 
@@ -192,21 +193,58 @@ class UsuariosController extends Controller
     public function asignar_unidad($id)
     {
         $user = Usuario::findOrFail($id);
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
-        return view('administrador.asignar_usuario',['usuario' => $user, 'unidades' => $unidades]);
+        $user->unidades_asignadas;
+        $unidad = ($user->unidades_asignadas->isEmpty()) ? "" : $user->unidades_asignadas[0]->codunijic;
+
+        $unidades = Unidad::where('estado','=', '1')->lists('nombre','codunijic');
+
+        return view('administrador.asignar_usuario',['usuario' => $user, 'uni_usuario' => $unidad, 'unidades' => $unidades]);
     }
 
      public function asignar()
     {
         $usuarios = Usuario::lists('nombres', 'id');
-        $unidades = Unidad::lists('codigosjic_des','codunijic')->take(10);
-        return view('administrador.asignar',['usuarios' => $usuarios, 'unidades' => $unidades]);
-        //return $unidades;
+        //$usuarios = Usuario::wherenotIn('unidades_asignadas');
+        //return $usuarios;
+        $unidades = Unidad::where('estado','=', '1')->lists('nombre','codunijic');
+
+        $usuarios_con_unidad = Usuario::has('unidades_asignadas')->get();
+        //return $usuarios_unidad;
+        return view('administrador.asignar',['usuarios' => $usuarios,'usuarios_unidad'=>$usuarios_con_unidad, 'unidades' => $unidades]);
+        //return $usuarios_unidad;
     }
 
     public function guardar_asignado(Request $request)
     {
-        dd($request->all());
+        $id_usuario = $request->id_usuario;
+        $id_unidad  =$request->unidad_id;
+        
+        if($id_usuario!="" && $id_unidad!=""){
+
+        $u = Usuario::findOrFail($id_usuario);
+        $u->unidades_asignadas()->attach($id_unidad);
+
+            return redirect()->action('UsuariosController@asignar')->with('success','El usuario ah sido asignado a la unidad.');
+        }
+        else{
+            return redirect()->action('UsuariosController@asignar');
+        }
+    }
+
+    public function eliminar_usuario_asignado(Request $request)
+    {
+        $id_usuario = $request->id;
+        $u = Usuario::findOrFail($id_usuario);
+        $u->unidades_asignadas()->detach();
+
+        return response()->json('{"err":"false"}');
+
+    }
+
+    public function ver_usuarios_asignados()
+    {
+      $usuarios = Usuario::has('unidades_asignadas')->get();
+        return view('administrador.ver_usuarios_asignados',['usuarios' => $usuarios]);
     }
 
 

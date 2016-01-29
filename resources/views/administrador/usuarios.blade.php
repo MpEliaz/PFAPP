@@ -19,21 +19,28 @@
                                 <td>Unidad</td>
                                 <td>Nombres</td>
                                 <td>Rol</td>
-                                <td style="width: 10%">Asignar Unidad</td>
+                                <td >Unidad Asignada</td>
                                 <td style="width: 5%">Estado</td>
                                 <td style="width: 5%">Modificar</td>
                                 <td style="width: 5%">Eliminar</td>
                             </tr>
                             </thead>
                             <tbody class="table-hover">
-                                
+
                             @foreach($usuarios as $u)
                             <tr>
                                 <td>{{$u->rut}}</td>
-                                <td>{{$u->unidad->codigosjic_sigla}}</td>
+                                <td>{{$u->unidad->sigla}}</td>
                                 <td><strong>{{$u->grado->sigla." ".$u->nombres." ".$u->apellido_p." ".$u->apellido_m}}</strong></td>
                                 <td>{{$u->rol->nombre}}</td>
-                                <td class="text-center"><a class="btn btn-primary btn-sm" href="{{ URL::to('usuarios/'.$u->id.'/asignar_unidad') }}">Asignar</td>
+                                {{-- <td class="text-center"><a class="btn btn-primary btn-sm" href="{{ URL::to('usuarios/'.$u->id.'/asignar_unidad') }}">Asignar</td> --}}
+                                <td>
+                                @if(count($u->unidades_asignadas))
+                                    {{$u->unidades_asignadas[0]->sigla}}
+                                @else
+                                    <p>Sin Unidad Asignada</p>
+                                @endif
+                                </td>
                                 <td>                  
                                     @if($u->estado == 0)
                                         <button id="estado-{{$u->id}}" data-id="{{$u->id}}" class="btn btn-success btn-sm cambia_estado">Activar</button>
@@ -46,7 +53,6 @@
                                 <td><button class="btn btn-danger btn-sm delete_user" data-id="{{$u->id}}" data-nombre="{{$u->grado->nombre." ".$u->nombres." ".$u->apellido_p." ".$u->apellido_m}}">Eliminar</button></td>
                                 </tr>
                             @endforeach
-                            
                             </tbody>
                         </table>
                     </div>

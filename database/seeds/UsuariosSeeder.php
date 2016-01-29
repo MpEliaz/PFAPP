@@ -28,9 +28,9 @@ class UsuariosSeeder extends Seeder
 		DB::table('usuarios')->insert([
 			'rut' => '11.111.111-1',
 			'unidad_id' => 'C000007',
-			'nombres' => 'Juan ',
-			'apellido_p' => 'Pérez',
-			'apellido_m' => 'Castro',
+			'nombres' => 'Tony',
+			'apellido_p' => 'Stark',
+			'apellido_m' => 'Stark',
 			'password' => bcrypt('123'),
 			'rol_id' => 2,
 			'estado' => 1,

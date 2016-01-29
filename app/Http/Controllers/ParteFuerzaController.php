@@ -30,17 +30,25 @@ class ParteFuerzaController extends Controller
      */
     public function index()
     {
+      if(Auth::user()->unidades_asignadas->isEmpty()){
+
+        return redirect()->back()->with('error','No Estas asociado a una unidad.');
+      }
+      else{
+        
         $partes = [];
         if(Auth::user()->isAdmin()){
-            $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->orderBy('id','desc')->get();
+            $partes = ParteFuerza::with('usuario_responsable.grado')->with('unidad')->with('demostracion.motivo')->orderBy('id','desc')->paginate(15);
         }
 
-        if(Auth::user()->rol_id == 3){
-            $partes = ParteFuerza::with('usuario_responsable.grado')->with('demostracion.motivo')->where('responsable','=', Auth::user()->id)->orderBy('id','desc')->get();
+        if(Auth::user()->isUser()){
+            $partes = ParteFuerza::with('usuario_responsable.grado')->with('unidad')->with('demostracion.motivo')
+                      ->where('responsable','=', Auth::user()->id)
+                      ->where('unidad_id','=', Auth::user()->unidades_asignadas[0]->codunijic)->orderBy('id','desc')->paginate(15);
         }
         //return $partes;
         return view('partefuerza.index',['partes'=> $partes]);
-
+      }
     }
 
     /**
@@ -50,10 +58,16 @@ class ParteFuerzaController extends Controller
      */
     public function create()
     {
-      return Auth::user()->unidades_asignadas;
+      if(Auth::user()->unidades_asignadas->isEmpty()){
 
-        //$motivos = Motivo::lists('motivo', 'id');
-        //return view('partefuerza.crear_parte', ['motivos' => $motivos]);
+        return redirect()->action('ParteFuerzaController@index');
+      }
+      else{
+         $motivos = Motivo::lists('motivo', 'id');
+        return view('partefuerza.crear_parte', ['motivos' => $motivos]);
+      }
+
+       
     }
 
     /**
@@ -66,7 +80,7 @@ class ParteFuerzaController extends Controller
     {
         $parte = new ParteFuerza([
 
-            'unidad_id'     => null,
+            'unidad_id'     => $r->unidad_id,
             'responsable'   => Auth::user()->id,
             'creado_el'     => Carbon::now(),
             'estado'        => 1,
@@ -111,7 +125,7 @@ class ParteFuerzaController extends Controller
             }
         }
 
-        return redirect()->action('ParteFuerzaController@index');
+        return redirect()->action('ParteFuerzaController@index')->with('success', 'El parte de fuerza se ha creado.');
         
     }
 
@@ -141,14 +155,12 @@ class ParteFuerzaController extends Controller
 
             $d->motivo;
             }
-        }
 
-        $motivos = Motivo::lists('motivo', 'id');
-        //return $parte;
-        if(isset($parte)){
+            $motivos = Motivo::lists('motivo', 'id');
             return view('partefuerza.modificar_parte',['parte'=> $parte, 'motivos' => $motivos]);
-        }
-        return response()->view('errors.custom', [], 500);
+        }         
+
+        return redirect()->back()->with('error', 'No puedes editar el parte de fuerza');
     }
 
     /**

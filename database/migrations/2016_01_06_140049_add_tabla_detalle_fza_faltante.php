@@ -18,7 +18,7 @@ class AddTablaDetalleFzaFaltante extends Migration
             $table->integer('partefuerza_id')->unsigned();
             $table->integer('motivo_id')->unsigned();
 
-            $table->foreign('partefuerza_id')->references('id')->on('parte_fuerza');
+            $table->foreign('partefuerza_id')->references('id')->on('parte_fuerza')->onDelete('cascade');
             $table->foreign('motivo_id')->references('id')->on('motivos');
             $table->timestamps();
         });

@@ -33,25 +33,28 @@ Route::post('usuarios/estado', 'UsuariosController@cambiar_estado');
 Route::group(['middleware' => ['web']], function () {
 
     Route::auth();
-    Route::get('/', function(){
-    	
-        return view('welcome');
-    });
     Route::get('/v', function(){
     	dd( Auth::user()->rol_id);
 
     });    
     
     
-    Route::get('/home', 'HomeController@index');
-    
     Route::group(['middleware' => ['auth']], function(){
+
+        Route::get('/', function(){
+                
+            return view('welcome');
+        });
+
+        Route::get('/home', 'HomeController@index');
 
         //Rutas Parte
         Route::delete('partefuerza/eliminar_motivo', 'ParteFuerzaController@eliminar_motivos');
     	Route::resource('partefuerza', 'ParteFuerzaController');
 
         //Rutas Usuario
+        Route::get('usuarios/asignados', 'UsuariosController@ver_usuarios_asignados');
+        Route::delete('usuarios/asignados/eliminar', 'UsuariosController@eliminar_usuario_asignado');
         Route::get('usuarios/asignar', 'UsuariosController@asignar');
         Route::post('usuarios/asignar', 'UsuariosController@guardar_asignado');
         Route::get('usuarios/{id}/asignar_unidad', 'UsuariosController@asignar_unidad');

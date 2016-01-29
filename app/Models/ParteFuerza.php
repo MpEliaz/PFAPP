@@ -47,4 +47,9 @@ class ParteFuerza extends Model
 		return $usuario;
     }
 
+    public function unidad()
+    {
+    	return $unidad = $this->hasOne('App\Models\Unidad', 'codunijic','unidad_id')->select('codunijic','sigla');
+    }
+
 }

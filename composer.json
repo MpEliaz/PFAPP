@@ -8,7 +8,9 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
-        "nesbot/carbon": "~1.14"
+        "nesbot/carbon": "~1.14",
+        "barryvdh/laravel-dompdf": "0.6.*",
+        "styde/blade-pagination": "5.1.*@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

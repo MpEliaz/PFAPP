@@ -3,6 +3,9 @@
 @section('content')
     <div class="container spark-screen">
         <div class="row">
+            @if(session('success'))
+                <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
+            @endif        
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">Asignar responsable de parte de fuerza</div>
@@ -30,7 +33,7 @@
                             <label class="col-md-3 control-label">Unidad</label>
 
                             <div class="col-md-7">
-                                    <p>aaa</p>
+                                    <p>{{$usuario->unidad->nombre}}</p>
                             </div>
                         </div>
 
@@ -46,7 +49,7 @@
                     <h3 class="text-center">Unidad</h3>
                         <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
                             <div class="col-md-12">
-                               {!! Form::select('unidad_id', $unidades, null, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
+                               {!! Form::select('unidad_id',$unidades,  $uni_usuario, ['class' => 'form-control', 'placeholder' => 'Selecciona Unidad']) !!}
 
                                 @if ($errors->has('unidad_id'))
                                     <span class="help-block">
@@ -70,5 +73,4 @@
             </div>
         </div>
     </div>
-    {{$usuario->unidades_asignadas}}
 @endsection

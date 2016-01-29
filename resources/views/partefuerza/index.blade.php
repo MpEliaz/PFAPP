@@ -4,12 +4,22 @@
     <div class="container spark-screen">
         <div class="row">
             <div class="col-md-12">
+            @if(session('error'))
+                <div class="alert alert-warning alerta-pf" role="alert">{{session('error')}}</div>
+            @endif
+            @if(session('success'))
+                <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
+            @endif
+            @if(Auth::user()->unidades_asignadas->isEmpty())
+                <a class="btn btn-success" disabled href="">Agregar Nuevo Parte de Fuerza</a>
+            @else
                 <a class="btn btn-success" href="{{ URL::action('ParteFuerzaController@create') }}">Agregar Nuevo Parte de Fuerza</a>
-
+            @endif
+            
                 <br>
                 <br>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Usuarios</div>
+                    <div class="panel-heading">Partes de Fuerza</div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead class="text-center">
@@ -30,7 +40,7 @@
                             <tr>
                                 <td>{{$p->id}}</td>
                                 <td>{{date('d/m/y - H:i',strtotime($p->creado_el))}}</td>
-                                 <td>{{$p->unidad_id}}</td>
+                                 <td>{{$p->unidad->sigla}}</td>
                                  <td>{{$p->usuario_responsable->grado->sigla." ".$p->usuario_responsable->nombres." ".$p->usuario_responsable->apellido_p." ".$p->usuario_responsable->apellido_m}}</td>
                                 <td>{{$p->fuerza_total}}</td>
                                 <td>{{$p->forman_total}}</td>
@@ -46,7 +56,9 @@
             </div>
         </div>
     </div>
+    <div class="row text-center">{!! $partes->links() !!}</div>
     @foreach($partes as $p)
+    
    {{-- MODAL DETALLE --}}
  <div class="modal fade bs-example-modal-lg" id="modal_parte_detalle-{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -155,6 +167,10 @@
         id = $(this).data('id');
         $('#modal_parte_detalle-'+id).modal('toggle');
         //$(".modal-body").html("Desea eliminar al usuario: <br><br><strong>"+nombre+"</strong>");
+    });
+
+    $(".alerta-pf").fadeTo(4000, 500).slideUp(800, function(){
+        $(".alerta-pf").alert('close');
     });
 	</script>
 @endsection
