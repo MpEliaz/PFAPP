@@ -13,7 +13,7 @@
                         <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Rut</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="rut" value="{{ old('rut') }}">
+                                <input type="text" class="form-control" name="rut" id="rut" value="{{ old('rut') }}">
 
                                 @if ($errors->has('rut'))
                                     <span class="help-block">
@@ -62,4 +62,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    @parent
+    <script>
+        $('#rut').Rut({
+            on_error: function(){ $('#rut').val("") }
+        });
+    </script>
 @endsection

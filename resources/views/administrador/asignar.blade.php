@@ -3,10 +3,13 @@
 @section('content')
     <div class="container spark-screen">
         <div class="row">
-            @if(session('success'))
-                <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
-            @endif             
             <div class="col-md-10 col-md-offset-1">
+                @if(session('success'))
+                    <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alerta-pf" role="alert">{{session('error')}}</div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Asignar responsable de parte de fuerza</div>
                     <div class="panel-body">
@@ -16,7 +19,7 @@
                     <h3 class="text-center">Usuario</h3>
                         <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
                             <div class="col-md-12">
-                               {!! Form::select('id_usuario', $usuarios, null, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
+                               {!! Form::select('id_usuario', $usuarios, null, ['class' => 'form-control', 'placeholder' => 'Selecciona usuario']) !!}
 
                                 @if ($errors->has('unidad_id'))
                                     <span class="help-block">
@@ -30,7 +33,7 @@
                     <h3 class="text-center">Unidad</h3>
                         <div class="form-group{{ $errors->has('unidad_id') ? ' has-error' : '' }}">
                             <div class="col-md-12">
-                               {!! Form::select('unidad_id', $unidades, null, ['class' => 'form-control', 'placeholder' => 'Selecciona...']) !!}
+                               {!! Form::select('unidad_id', $unidades, null, ['class' => 'form-control', 'placeholder' => 'Selecciona unidad']) !!}
 
                                 @if ($errors->has('unidad_id'))
                                     <span class="help-block">
@@ -63,7 +66,7 @@
                             <tr class="text-center">
                                 <td style="width: 15%">Rut</td>
                                 <td>Unidad</td>
-                                <td>Nombres</td>
+                                <td>Nombre</td>
                                 <td >Unidad Asignada</td>
                                 <td style="width: 5%">Eliminar</td>
                             </tr>
@@ -116,6 +119,11 @@
     @parent
 
 <script>
+
+    $(".alerta-pf").fadeTo(4000, 500).slideUp(800, function(){
+        $(".alerta-pf").alert('close');
+    });
+
     var id;
 
     $('.delete_user').click(function(event) {

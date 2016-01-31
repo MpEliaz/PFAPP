@@ -10,4 +10,10 @@
 .parte-unidad{
 	display: inline-block;
     float: right;
+    margin-right: 25px;
+}
+
+.parte-unidad span{
+    font-size: 15px;
+    margin-right: 10px;
 }

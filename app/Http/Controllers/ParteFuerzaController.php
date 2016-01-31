@@ -32,20 +32,23 @@ class ParteFuerzaController extends Controller
     {
       if(Auth::user()->unidades_asignadas->isEmpty()){
 
-        return redirect()->back()->with('error','No Estas asociado a una unidad.');
+        return redirect("/")->with('error','No estas asociado a una unidad. comunicate con un administrador');
       }
       else{
         
         $partes = [];
         if(Auth::user()->isAdmin()){
-            $partes = ParteFuerza::with('usuario_responsable.grado')->with('unidad')->with('demostracion.motivo')->orderBy('id','desc')->paginate(15);
+            $partes = ParteFuerza::with('usuario_responsable.grado')->with('unidad')->with('demostracion.motivo')
+                ->orderBy('id','desc')->paginate(15);
         }
 
         if(Auth::user()->isUser()){
             $partes = ParteFuerza::with('usuario_responsable.grado')->with('unidad')->with('demostracion.motivo')
                       ->where('responsable','=', Auth::user()->id)
-                      ->where('unidad_id','=', Auth::user()->unidades_asignadas[0]->codunijic)->orderBy('id','desc')->paginate(15);
+                      ->where('unidad_id','=', Auth::user()->unidades_asignadas[0]->codunijic)
+                ->orderBy('id','desc')->paginate(15);
         }
+
         //return $partes;
         return view('partefuerza.index',['partes'=> $partes]);
       }
@@ -255,9 +258,9 @@ class ParteFuerzaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+
     }
 
     public function eliminar_motivos(Request $request)

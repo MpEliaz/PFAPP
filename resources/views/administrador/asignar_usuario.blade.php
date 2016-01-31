@@ -3,10 +3,11 @@
 @section('content')
     <div class="container spark-screen">
         <div class="row">
-            @if(session('success'))
-                <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
-            @endif        
+
             <div class="col-md-10 col-md-offset-1">
+                @if(session('success'))
+                    <div class="alert alert-success alerta-pf" role="alert">{{session('success')}}</div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Asignar responsable de parte de fuerza</div>
                     <div class="panel-body">

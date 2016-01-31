@@ -43,7 +43,7 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('/', function(){
                 
-            return view('welcome');
+            return view('inicio');
         });
 
         Route::get('/home', 'HomeController@index');

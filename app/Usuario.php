@@ -25,6 +25,11 @@ class Usuario extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function nombre_completo()
+    {
+        return $this->nombres." ".$this->apellido_p." ".$this->apellido_m;
+    }
+
     public function grado()
     {
         return $this->hasOne('App\Models\Grado','id', 'grado_id');

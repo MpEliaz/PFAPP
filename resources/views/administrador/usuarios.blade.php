@@ -132,9 +132,10 @@
 
     $('.confirm-delete').click(function(event) {
         $.ajax({
-            url: '/usuarios',
+            url: '/usuarios/'+id,
             type: 'DELETE',
-            data: {id: id},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {id: id}
         })
         .done(function() {
             console.log("success");

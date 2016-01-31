@@ -106,11 +106,11 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-btn fa-reload"></i>Generar
-                                </button>
-                            </div>
+                            {{--<div class="col-md-2">--}}
+                                {{--<button type="submit" class="btn btn-success">--}}
+                                    {{--<i class="fa fa-btn fa-reload"></i>Generar--}}
+                                {{--</button>--}}
+                            {{--</div>--}}
                         </div>
 
                         <div class="form-group{{ $errors->has('rol') ? ' has-error' : '' }}">

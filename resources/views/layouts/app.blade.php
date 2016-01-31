@@ -62,8 +62,8 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/usuarios') }}">Ver Todos</a></li>
-                            <li><a href="{{ url('/usuarios/asignar') }}">Asignar Usuario a Unidad</a></li>
-                            <li><a href="{{ url('/usuarios/asignados') }}">Ver Usuarios Asignados</a></li>
+                            <li><a href="{{ url('/usuarios/asignar') }}">Asignar a Unidad</a></li>
+                            <li><a href="{{ url('/usuarios/asignados') }}">Ver Asignados</a></li>
                         </ul>
                     </li>
                     
@@ -99,7 +99,15 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
     {!! Html::script('assets/js/jquery.min.js') !!}  
     {!! Html::script('assets/js/bootstrap.min.js') !!} 
+    {!! Html::script('assets/js/jquery.Rut.min.js') !!}
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+
+    <script>
+        $(".alerta-pf").fadeTo(4000, 500).slideUp(800, function(){
+            $(".alerta-pf").alert('close');
+        });
+
+    </script>
 
     @yield('scripts')
 </body>

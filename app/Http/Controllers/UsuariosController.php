@@ -22,7 +22,8 @@ class UsuariosController extends Controller
              'asignar',
              'asignar_unidad',
              'edit',
-             'show'
+             'show',
+            'destroy'
          ]]);
     }
 
@@ -156,16 +157,19 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         if($request->ajax()) {
-                // $user = Usuario::findOrFail($request->id);
-            return "HOLII";
-                // if(isset($user)){
-                //     //return response()->json('{"id":'.$user->id.', "estado":'.$user->estado.', "err":"false"}');
-                //     return "ESTOY CASI";
-                // }
-        }        
+            $user = Usuario::findOrFail($id);
+
+            if(isset($user)){
+
+                $user->delete();
+
+                return response()->json('{"completado": "true"}');
+            }
+        }
+        return response()->json('{"completado": "false"}');
     }
 
     public function cambiar_estado(Request $request)
@@ -190,6 +194,8 @@ class UsuariosController extends Controller
         }
     }
 
+    //ESTA FUNCION ES PARA ASIGNAR UNIDAD A USUARIO X
+
     public function asignar_unidad($id)
     {
         $user = Usuario::findOrFail($id);
@@ -203,15 +209,21 @@ class UsuariosController extends Controller
 
      public function asignar()
     {
-        $usuarios = Usuario::lists('nombres', 'id');
-        //$usuarios = Usuario::wherenotIn('unidades_asignadas');
+        $ids = \DB::table('usuario_unidad')->select('usuario');
+
+        $usuarios = Usuario::whereNotIn('id', $ids)->get();
         //return $usuarios;
+        $users = [];
+        if(!$usuarios->isEmpty()){
+            foreach($usuarios as $u){
+                $users[$u->id] = $u->nombre_completo();
+            }
+        }
         $unidades = Unidad::where('estado','=', '1')->lists('nombre','codunijic');
 
         $usuarios_con_unidad = Usuario::has('unidades_asignadas')->get();
-        //return $usuarios_unidad;
-        return view('administrador.asignar',['usuarios' => $usuarios,'usuarios_unidad'=>$usuarios_con_unidad, 'unidades' => $unidades]);
-        //return $usuarios_unidad;
+
+        return view('administrador.asignar',['usuarios' => $users,'usuarios_unidad'=>$usuarios_con_unidad, 'unidades' => $unidades]);
     }
 
     public function guardar_asignado(Request $request)
@@ -227,7 +239,7 @@ class UsuariosController extends Controller
             return redirect()->action('UsuariosController@asignar')->with('success','El usuario ah sido asignado a la unidad.');
         }
         else{
-            return redirect()->action('UsuariosController@asignar');
+            return redirect()->action('UsuariosController@asignar')->with('error','Seleccione usuario y unidad');
         }
     }
 

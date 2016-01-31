@@ -28,6 +28,7 @@ class UsuarioForm extends Request
                 return [
                     "rut"         =>    "required|unique:usuarios",
                     "grado_id"    =>    "required",
+                    "unidad_id"    =>    "required",
                     "nombres"     =>    "required|min:3|max:500",
                     "apellido_p"  =>    "required|min:3|max:500",
                     "apellido_m"  =>    "required|min:3|max:500",
@@ -56,13 +57,14 @@ class UsuarioForm extends Request
     public function messages()
     {
         return [
-            "rut"           =>    "rut requerido",
-            "grado_id"      =>    "grado requerido",
-            "nombres"       =>    "nombre requerido",
-            "apellido_p"    =>    "apellido paterno requerido",
-            "apellido_m"    =>    "apellido materno requerido",
-            "password"      =>    "contraseña requerida",
-            "rol"           =>    "seleccione rol",
+            "rut.required"           =>    "Rut requerido",
+            "grado_id.required"      =>    "Grado requerido",
+            "nombres.required"       =>    "Nombre requerido",
+            "apellido_p.required"    =>    "Apellido paterno requerido",
+            "apellido_m.required"    =>    "Apellido materno requerido",
+            "password.required"      =>    "Contraseña requerida",
+            "rol.required"           =>    "Selecciona un rol",
+            "unidad_id.required"     =>    "Selecciona unidad"
         ];
     }
 }

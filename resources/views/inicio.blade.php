@@ -7,12 +7,20 @@
                     @if(session('error'))
                 <div class="alert alert-warning alerta-pf" role="alert">{{session('error')}}</div>
             @endif
-            <div class="panel panel-default">
-                <div class="panel-heading">Welcome</div>
-
-                <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel widget bg-color1">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8"></div>
                 </div>
             </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
         </div>
     </div>
 </div>
